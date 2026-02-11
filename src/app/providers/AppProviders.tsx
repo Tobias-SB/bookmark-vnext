@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 
 import { queryClient } from "@/app/config/queryClient";
 import { AppThemeProvider, useAppTheme } from "@/app/theme";
-import { buildNavigationTheme } from "@/app/navigation/buildNavigationTheme";
+import { buildNavigationTheme } from "@/app/theme/buildNavigationTheme";
 
 function NavigationWithTheme({ children }: PropsWithChildren) {
   const { theme } = useAppTheme();
