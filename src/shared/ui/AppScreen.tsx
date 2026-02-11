@@ -1,14 +1,11 @@
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
+import { useAppTheme } from "@/app/theme";
 
-import { useAppThemeMode } from "@/app/theme";
-
-type Props = PropsWithChildren<{
-  padded?: boolean;
-}>;
+type Props = PropsWithChildren<{ padded?: boolean }>;
 
 export function AppScreen({ children, padded = true }: Props) {
-  const { tokens } = useAppThemeMode();
+  const { tokens } = useAppTheme();
 
   return (
     <View

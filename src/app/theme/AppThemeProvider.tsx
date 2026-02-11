@@ -1,18 +1,23 @@
-import { PropsWithChildren, createContext, useMemo, useState } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useColorScheme } from "react-native";
 import { MD3DarkTheme, MD3LightTheme, type MD3Theme } from "react-native-paper";
 
 import type { ThemeMode, ThemeTokens } from "@/app/theme/types";
-import { buildTokens } from "@/app/theme/buildTokens";
 
-export type AppThemeContextValue = {
+type AppThemeContextValue = {
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
   theme: MD3Theme;
   tokens: ThemeTokens;
 };
 
-export const AppThemeContext = createContext<AppThemeContextValue | null>(null);
+const AppThemeContext = createContext<AppThemeContextValue | null>(null);
 
 function resolveMode(
   mode: ThemeMode,
@@ -21,6 +26,18 @@ function resolveMode(
   if (mode === "light") return "light";
   if (mode === "dark") return "dark";
   return system === "dark" ? "dark" : "light";
+}
+
+function buildTokens(theme: MD3Theme): ThemeTokens {
+  const c = theme.colors;
+
+  return {
+    screen: { background: c.background },
+    text: { primary: c.onBackground, secondary: c.onSurfaceVariant },
+    card: { background: c.surface, border: c.outlineVariant },
+    button: { primaryBackground: c.primary, primaryText: c.onPrimary },
+    divider: { subtle: c.outlineVariant },
+  };
 }
 
 export function AppThemeProvider({ children }: PropsWithChildren) {
@@ -39,4 +56,10 @@ export function AppThemeProvider({ children }: PropsWithChildren) {
       {children}
     </AppThemeContext.Provider>
   );
+}
+
+export function useAppTheme() {
+  const ctx = useContext(AppThemeContext);
+  if (!ctx) throw new Error("useAppTheme must be used within AppThemeProvider");
+  return ctx;
 }

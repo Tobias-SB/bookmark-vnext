@@ -1,16 +1,18 @@
 import { Button, type ButtonProps } from "react-native-paper";
-import { useAppThemeMode } from "@/app/theme";
+import { useAppTheme } from "@/app/theme";
 
 type Props = ButtonProps;
 
-export function AppButton(props: Props) {
-  const { tokens } = useAppThemeMode();
+export function AppButton({ mode = "contained", ...rest }: Props) {
+  const { tokens } = useAppTheme();
+  const isContained = mode === "contained";
 
   return (
     <Button
-      {...props}
-      buttonColor={tokens.button.primaryBackground}
-      textColor={tokens.button.primaryText}
+      mode={mode}
+      {...rest}
+      buttonColor={isContained ? tokens.button.primaryBackground : undefined}
+      textColor={isContained ? tokens.button.primaryText : undefined}
     />
   );
 }

@@ -1,33 +1,44 @@
 import { StyleSheet, View } from "react-native";
 
-import { AppScreen, AppText } from "@/shared/ui";
-import { useAppThemeMode } from "@/app/theme";
+import { useAppTheme } from "@/app/theme";
+import { AppButton, AppScreen, AppText } from "@/shared/ui";
 
 export function SettingsScreen() {
-  const { mode, setMode } = useAppThemeMode();
+  const { mode, setMode } = useAppTheme();
 
   return (
     <AppScreen>
       <AppText variant="title">Settings</AppText>
       <View style={styles.spacer} />
+
       <AppText variant="secondary">Theme mode: {mode}</AppText>
       <View style={styles.spacer} />
 
-      <AppText>
-        Theme controls will live here in vNext. For now, this is the typed
-        placeholder screen.
-      </AppText>
-
-      <View style={styles.spacer} />
-
-      {/* Minimal, non-fancy controls for phase 1 */}
-      <AppText onPress={() => setMode("system")}>• System</AppText>
-      <AppText onPress={() => setMode("light")}>• Light</AppText>
-      <AppText onPress={() => setMode("dark")}>• Dark</AppText>
+      <View style={styles.row}>
+        <AppButton
+          mode={mode === "system" ? "contained" : "outlined"}
+          onPress={() => setMode("system")}
+        >
+          System
+        </AppButton>
+        <AppButton
+          mode={mode === "light" ? "contained" : "outlined"}
+          onPress={() => setMode("light")}
+        >
+          Light
+        </AppButton>
+        <AppButton
+          mode={mode === "dark" ? "contained" : "outlined"}
+          onPress={() => setMode("dark")}
+        >
+          Dark
+        </AppButton>
+      </View>
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
   spacer: { height: 12 },
+  row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
 });

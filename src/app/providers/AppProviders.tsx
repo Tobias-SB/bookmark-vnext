@@ -1,13 +1,13 @@
 import { PropsWithChildren } from "react";
-import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { PaperProvider } from "react-native-paper";
 
 import { queryClient } from "@/app/config/queryClient";
-import { AppThemeProvider, useAppThemeMode } from "@/app/theme";
+import { AppThemeProvider, useAppTheme } from "@/app/theme";
 
-function ThemedProviders({ children }: PropsWithChildren) {
-  const { theme } = useAppThemeMode();
+function ProvidersWithTheme({ children }: PropsWithChildren) {
+  const { theme } = useAppTheme();
 
   return (
     <PaperProvider theme={theme}>
@@ -20,7 +20,7 @@ export function AppProviders({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
       <AppThemeProvider>
-        <ThemedProviders>{children}</ThemedProviders>
+        <ProvidersWithTheme>{children}</ProvidersWithTheme>
       </AppThemeProvider>
     </QueryClientProvider>
   );

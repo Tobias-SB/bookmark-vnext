@@ -1,30 +1,21 @@
-import { StyleSheet, Text, type TextProps } from "react-native";
-import { useAppThemeMode } from "@/app/theme";
+import { Text, type TextProps } from "react-native";
+import { useAppTheme } from "@/app/theme";
 
-type Props = TextProps & {
-  variant?: "title" | "body" | "secondary";
-};
+type Props = TextProps & { variant?: "title" | "body" | "secondary" };
 
-export function AppText({ style, variant = "body", ...rest }: Props) {
-  const { tokens } = useAppThemeMode();
-
-  const color =
-    variant === "secondary" ? tokens.text.secondary : tokens.text.primary;
-
-  return (
-    <Text
-      {...rest}
-      style={[styles.base, variantStyles[variant], { color }, style]}
-    />
-  );
-}
-
-const styles = StyleSheet.create({
-  base: {},
-});
-
-const variantStyles = StyleSheet.create({
+const VARIANT_STYLE: Record<
+  NonNullable<Props["variant"]>,
+  TextProps["style"]
+> = {
   title: { fontSize: 20, fontWeight: "700" },
   body: { fontSize: 16 },
   secondary: { fontSize: 14 },
-});
+};
+
+export function AppText({ style, variant = "body", ...rest }: Props) {
+  const { tokens } = useAppTheme();
+  const color =
+    variant === "secondary" ? tokens.text.secondary : tokens.text.primary;
+
+  return <Text {...rest} style={[VARIANT_STYLE[variant], { color }, style]} />;
+}
