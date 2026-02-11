@@ -1,9 +1,8 @@
-import { StyleSheet, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
 
 import type { RootStackParamList } from "@/app/navigation";
-import { AppScreen, AppText } from "@/shared/ui";
+import { AppScreen, AppSpacer, AppText } from "@/shared/ui";
 
 type R = RouteProp<RootStackParamList, "ReadableDetail">;
 
@@ -13,9 +12,9 @@ export function ReadableDetailScreen() {
   return (
     <AppScreen>
       <AppText variant="title">Readable Detail</AppText>
-      <View style={styles.spacer} />
+      <AppSpacer />
       <AppText variant="secondary">id: {route.params.id}</AppText>
-      <View style={styles.spacer} />
+      <AppSpacer />
       <AppText>
         Phase 4 will replace this with status + progress controls and the AO3
         button for fanfics.
@@ -23,7 +22,3 @@ export function ReadableDetailScreen() {
     </AppScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  spacer: { height: 12 },
-});

@@ -1,7 +1,7 @@
-import { StyleSheet, View } from "react-native";
+import { SegmentedButtons } from "react-native-paper";
 
 import { useAppTheme } from "@/app/theme";
-import { AppButton, AppScreen, AppText } from "@/shared/ui";
+import { AppScreen, AppSpacer, AppText } from "@/shared/ui";
 
 export function SettingsScreen() {
   const { mode, setMode } = useAppTheme();
@@ -9,36 +9,25 @@ export function SettingsScreen() {
   return (
     <AppScreen>
       <AppText variant="title">Settings</AppText>
-      <View style={styles.spacer} />
+      <AppSpacer />
 
-      <AppText variant="secondary">Theme mode: {mode}</AppText>
-      <View style={styles.spacer} />
+      <AppText variant="secondary">Theme mode</AppText>
+      <AppSpacer size={8} />
 
-      <View style={styles.row}>
-        <AppButton
-          mode={mode === "system" ? "contained" : "outlined"}
-          onPress={() => setMode("system")}
-        >
-          System
-        </AppButton>
-        <AppButton
-          mode={mode === "light" ? "contained" : "outlined"}
-          onPress={() => setMode("light")}
-        >
-          Light
-        </AppButton>
-        <AppButton
-          mode={mode === "dark" ? "contained" : "outlined"}
-          onPress={() => setMode("dark")}
-        >
-          Dark
-        </AppButton>
-      </View>
+      <SegmentedButtons
+        value={mode}
+        onValueChange={(v) => setMode(v as typeof mode)}
+        buttons={[
+          { value: "system", label: "System" },
+          { value: "light", label: "Light" },
+          { value: "dark", label: "Dark" },
+        ]}
+      />
+
+      <AppSpacer />
+      <AppText variant="secondary">
+        (Saved automatically — survives app restarts.)
+      </AppText>
     </AppScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  spacer: { height: 12 },
-  row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
-});

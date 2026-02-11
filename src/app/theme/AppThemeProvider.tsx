@@ -2,13 +2,21 @@ import {
   PropsWithChildren,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { useColorScheme } from "react-native";
-import { MD3DarkTheme, MD3LightTheme, type MD3Theme } from "react-native-paper";
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  type MD3Theme,
+} from "react-native-paper";
 
 import type { ThemeMode, ThemeTokens } from "@/app/theme/types";
+import { loadThemeMode, saveThemeMode } from "@/app/theme/storage";
+import { useIsMounted } from "@/shared/hooks";
 
 type AppThemeContextValue = {
   mode: ThemeMode;
@@ -42,7 +50,21 @@ function buildTokens(theme: MD3Theme): ThemeTokens {
 
 export function AppThemeProvider({ children }: PropsWithChildren) {
   const system = useColorScheme();
-  const [mode, setMode] = useState<ThemeMode>("system");
+  const isMounted = useIsMounted();
+
+  const [mode, setModeState] = useState<ThemeMode>("system");
+
+  useEffect(() => {
+    void (async () => {
+      const saved = await loadThemeMode();
+      if (saved && isMounted.current) setModeState(saved);
+    })();
+  }, [isMounted]);
+
+  const setMode = (next: ThemeMode) => {
+    setModeState(next);
+    void saveThemeMode(next);
+  };
 
   const value = useMemo<AppThemeContextValue>(() => {
     const resolved = resolveMode(mode, system);
@@ -53,7 +75,7 @@ export function AppThemeProvider({ children }: PropsWithChildren) {
 
   return (
     <AppThemeContext.Provider value={value}>
-      {children}
+      <PaperProvider theme={value.theme}>{children}</PaperProvider>
     </AppThemeContext.Provider>
   );
 }
