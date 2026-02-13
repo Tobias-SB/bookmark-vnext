@@ -1,3 +1,4 @@
+// src/features/readables/ui/ReadableListScreen.tsx
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
 import { useLibraryNavigation } from "@/app/navigation";
 
@@ -20,6 +21,18 @@ export function ReadableListScreen() {
       >
         Open demo detail
       </AppButton>
+
+      {__DEV__ ? (
+        <>
+          <AppSpacer />
+          <AppButton
+            mode="outlined"
+            onPress={() => navigation.navigate("UIPlayground")}
+          >
+            Open UI playground
+          </AppButton>
+        </>
+      ) : null}
     </AppScreen>
   );
 }

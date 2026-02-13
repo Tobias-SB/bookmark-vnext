@@ -1,3 +1,4 @@
+// src/app/theme/types.ts
 export type ThemeMode = "system" | "light" | "dark";
 
 export type ThemeTokens = {
@@ -16,7 +17,27 @@ export type ThemeTokens = {
     primaryBackground: string;
     primaryText: string;
   };
+  chip: {
+    background: string;
+    border: string;
+    text: string;
+    selectedBackground: string;
+    selectedBorder: string;
+    selectedText: string;
+  };
   divider: {
     subtle: string;
+  };
+  space: {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+  };
+  radius: {
+    sm: number;
+    md: number;
+    lg: number;
+    pill: number;
   };
 };

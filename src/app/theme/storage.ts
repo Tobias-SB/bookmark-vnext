@@ -1,3 +1,4 @@
+// src/app/theme/storage.ts
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { ThemeMode } from "@/app/theme/types";
 

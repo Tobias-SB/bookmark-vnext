@@ -1,3 +1,4 @@
+// src/shared/ui/AppScreen.tsx
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
 import { useAppTheme } from "@/app/theme";
@@ -12,7 +13,7 @@ export function AppScreen({ children, padded = true }: Props) {
       style={[
         styles.base,
         { backgroundColor: tokens.screen.background },
-        padded && styles.padded,
+        padded && { padding: tokens.space.md },
       ]}
     >
       {children}
@@ -22,5 +23,4 @@ export function AppScreen({ children, padded = true }: Props) {
 
 const styles = StyleSheet.create({
   base: { flex: 1 },
-  padded: { padding: 16 },
 });

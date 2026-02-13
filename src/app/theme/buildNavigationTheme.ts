@@ -1,3 +1,4 @@
+// src/app/theme/buildNavigationTheme.ts
 import { DarkTheme, DefaultTheme, type Theme } from "@react-navigation/native";
 import type { MD3Theme } from "react-native-paper";
 

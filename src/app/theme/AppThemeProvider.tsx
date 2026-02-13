@@ -1,3 +1,4 @@
+// src/app/theme/AppThemeProvider.tsx
 import {
   PropsWithChildren,
   createContext,
@@ -44,7 +45,27 @@ function buildTokens(theme: MD3Theme): ThemeTokens {
     text: { primary: c.onBackground, secondary: c.onSurfaceVariant },
     card: { background: c.surface, border: c.outlineVariant },
     button: { primaryBackground: c.primary, primaryText: c.onPrimary },
+    chip: {
+      background: c.surfaceVariant,
+      border: c.outlineVariant,
+      text: c.onSurfaceVariant,
+      selectedBackground: c.primaryContainer,
+      selectedBorder: c.primary,
+      selectedText: c.onPrimaryContainer,
+    },
     divider: { subtle: c.outlineVariant },
+    space: {
+      xs: 6,
+      sm: 12,
+      md: 16,
+      lg: 24,
+    },
+    radius: {
+      sm: 10,
+      md: 14,
+      lg: 18,
+      pill: 999,
+    },
   };
 }
 
