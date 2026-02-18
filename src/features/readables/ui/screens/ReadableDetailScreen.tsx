@@ -1,16 +1,19 @@
 // src/features/readables/ui/screens/ReadableDetailScreen.tsx
+import { Linking, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
-import { Linking, View } from "react-native";
-
-import { useReadable } from "../../data";
 
 import type { RootStackParamList } from "@/app/navigation";
+import { useRootNavigation } from "@/app/navigation";
+import { useAppTheme } from "@/app/theme";
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
+import { useReadable } from "../../data";
 
 type R = RouteProp<RootStackParamList, "ReadableDetail">;
 
 export function ReadableDetailScreen() {
+  const navigation = useRootNavigation();
+  const { tokens } = useAppTheme();
   const route = useRoute<R>();
   const { data, isLoading, isError } = useReadable(route.params.id);
 
@@ -64,28 +67,33 @@ export function ReadableDetailScreen() {
           : ""}
       </AppText>
 
-      {ao3Url ? (
-        <>
-          <AppSpacer size={16} />
-          <View>
-            <AppButton
-              mode="contained"
-              onPress={() => {
-                // `ao3Url` is guaranteed string here (truthy branch).
-                Linking.openURL(ao3Url).catch((err) => {
-                  if (__DEV__) console.warn("Failed to open AO3 URL", err);
-                });
-              }}
-            >
-              View on AO3
-            </AppButton>
-          </View>
-        </>
-      ) : null}
+      <AppSpacer size={16} />
+
+      <View style={{ gap: tokens.space.sm }}>
+        <AppButton
+          mode="outlined"
+          onPress={() => navigation.navigate("ReadableUpsert", { id: data.id })}
+        >
+          Edit
+        </AppButton>
+
+        {ao3Url ? (
+          <AppButton
+            mode="contained"
+            onPress={() => {
+              Linking.openURL(ao3Url).catch((err) => {
+                if (__DEV__) console.warn("Failed to open AO3 URL", err);
+              });
+            }}
+          >
+            View on AO3
+          </AppButton>
+        ) : null}
+      </View>
 
       <AppSpacer size={20} />
       <AppText variant="secondary">
-        Next: the Add flow + real edit controls for status/progress.
+        Next: add status/progress edit controls directly on this screen.
       </AppText>
     </AppScreen>
   );

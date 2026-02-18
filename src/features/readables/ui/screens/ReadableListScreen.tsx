@@ -1,12 +1,11 @@
 // src/features/readables/ui/screens/ReadableListScreen.tsx
 import { FlatList, Pressable, StyleSheet, View } from "react-native";
 
-import { useReadables, useUpsertReadable } from "../../data";
-
 import { useLibraryNavigation } from "@/app/navigation";
 import { useAppTheme } from "@/app/theme";
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
 import { createId } from "@/shared/utils";
+import { useReadables, useUpsertReadable } from "../../data";
 
 export function ReadableListScreen() {
   const navigation = useLibraryNavigation();
@@ -19,7 +18,16 @@ export function ReadableListScreen() {
 
   return (
     <AppScreen padded>
-      <AppText variant="title">Library</AppText>
+      <View style={[styles.headerRow, { gap: tokens.space.sm }]}>
+        <AppText variant="title">Library</AppText>
+        <AppButton
+          mode="outlined"
+          onPress={() => navigation.navigate("AddChooser")}
+        >
+          Add
+        </AppButton>
+      </View>
+
       <AppSpacer size={12} />
 
       {isLoading ? (
@@ -31,12 +39,20 @@ export function ReadableListScreen() {
           <AppText>No items yet.</AppText>
           <AppSpacer size={8} />
           <AppText variant="secondary">
-            This is intentionally empty until the Add flow lands.
+            Add a book or fanfic to start tracking status and progress.
           </AppText>
+
+          <AppSpacer size={16} />
+          <AppButton
+            mode="contained"
+            onPress={() => navigation.navigate("AddChooser")}
+          >
+            Add your first item
+          </AppButton>
 
           {__DEV__ ? (
             <>
-              <AppSpacer size={20} />
+              <AppSpacer size={24} />
               <AppText variant="secondary">Dev tools</AppText>
               <AppSpacer size={8} />
 
@@ -111,6 +127,8 @@ export function ReadableListScreen() {
                   {
                     backgroundColor: tokens.card.background,
                     borderColor: tokens.card.border,
+                    borderRadius: tokens.radius.md,
+                    padding: tokens.space.md,
                   },
                 ]}
               >
@@ -134,9 +152,12 @@ export function ReadableListScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   row: {
-    padding: 12,
-    borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
   },
 });
