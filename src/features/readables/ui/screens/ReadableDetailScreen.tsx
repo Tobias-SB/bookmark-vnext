@@ -5,7 +5,7 @@ import type { RouteProp } from "@react-navigation/native";
 
 import type { RootStackParamList } from "@/app/navigation";
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
-import { useReadable } from "@/features/readables";
+import { useReadable } from "../../data";
 
 type R = RouteProp<RootStackParamList, "ReadableDetail">;
 

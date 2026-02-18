@@ -7,7 +7,7 @@ import type {
   ReadableProgressPatch,
   ReadableStatus,
   ReadableUpsertPayload,
-} from "@/features/readables/domain";
+} from "../domain";
 import { readablesKeys } from "./queryKeys";
 import { createReadablesRepository } from "./repository";
 

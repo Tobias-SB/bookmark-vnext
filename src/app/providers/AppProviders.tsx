@@ -18,16 +18,35 @@ function NavigationWithTheme({ children }: PropsWithChildren) {
 
 function DatabaseProvider({ children }: PropsWithChildren) {
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <SQLiteProvider
       databaseName={DATABASE_NAME}
       onInit={async (db) => {
-        await migrateDbIfNeeded(db);
-        setReady(true);
+        try {
+          await migrateDbIfNeeded(db);
+          setReady(true);
+        } catch (e) {
+          // Surfacing the actual error message makes Android SQLite failures *far*
+          // less mysterious than “NativeDatabase.* has been rejected”.
+          console.error("Database init failed", e);
+          setError(e instanceof Error ? e.message : String(e));
+        }
       }}
     >
-      {ready ? (
+      {error ? (
+        <AppScreen padded>
+          <AppText variant="title">Database error</AppText>
+          <AppSpacer size={8} />
+          <AppText variant="secondary">{error}</AppText>
+          <AppSpacer size={16} />
+          <AppText variant="secondary">
+            Tip: if this happened right after a schema change, try deleting the
+            app data (or uninstalling) to reset the local database.
+          </AppText>
+        </AppScreen>
+      ) : ready ? (
         children
       ) : (
         <AppScreen padded>

@@ -5,7 +5,7 @@ import { useLibraryNavigation } from "@/app/navigation";
 import { useAppTheme } from "@/app/theme";
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
 import { createId } from "@/shared/utils";
-import { useReadables, useUpsertReadable } from "@/features/readables";
+import { useReadables, useUpsertReadable } from "../../data";
 
 export function ReadableListScreen() {
   const navigation = useLibraryNavigation();
@@ -32,18 +32,6 @@ export function ReadableListScreen() {
           <AppText variant="secondary">
             This is intentionally empty until the Add flow lands.
           </AppText>
-
-          {__DEV__ ? (
-            <>
-              <AppSpacer />
-              <AppButton
-                mode="outlined"
-                onPress={() => navigation.navigate("UIPlayground")}
-              >
-                Open UI playground
-              </AppButton>
-            </>
-          ) : null}
 
           {__DEV__ ? (
             <>
@@ -146,8 +134,8 @@ export function ReadableListScreen() {
 
 const styles = StyleSheet.create({
   row: {
-    borderWidth: 1,
-    borderRadius: 14,
     padding: 12,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
   },
 });

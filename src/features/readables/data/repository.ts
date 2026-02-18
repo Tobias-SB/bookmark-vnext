@@ -7,7 +7,7 @@ import type {
   ReadableProgressPatch,
   ReadableStatus,
   ReadableUpsertPayload,
-} from "@/features/readables/domain";
+} from "../domain";
 
 type ReadableRow = {
   id: string;
