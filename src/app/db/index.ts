@@ -1,5 +1,6 @@
 // src/app/db/index.ts
 import type { SQLiteDatabase } from "expo-sqlite";
+
 import { migrateReadablesV1 } from "@/features/readables";
 
 export const DATABASE_NAME = "bookmark.db";

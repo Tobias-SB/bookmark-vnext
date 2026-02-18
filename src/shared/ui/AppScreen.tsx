@@ -1,6 +1,7 @@
 // src/shared/ui/AppScreen.tsx
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
+
 import { useAppTheme } from "@/app/theme";
 
 type Props = PropsWithChildren<{ padded?: boolean }>;

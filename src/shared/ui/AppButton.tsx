@@ -1,5 +1,6 @@
 // src/shared/ui/AppButton.tsx
 import { Button, type ButtonProps } from "react-native-paper";
+
 import { useAppTheme } from "@/app/theme";
 
 type Props = ButtonProps;

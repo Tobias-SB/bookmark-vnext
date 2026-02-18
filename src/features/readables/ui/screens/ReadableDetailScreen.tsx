@@ -1,11 +1,12 @@
 // src/features/readables/ui/screens/ReadableDetailScreen.tsx
-import { Linking, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from "@react-navigation/native";
+import { Linking, View } from "react-native";
+
+import { useReadable } from "../../data";
 
 import type { RootStackParamList } from "@/app/navigation";
 import { AppButton, AppScreen, AppSpacer, AppText } from "@/shared/ui";
-import { useReadable } from "../../data";
 
 type R = RouteProp<RootStackParamList, "ReadableDetail">;
 
@@ -71,7 +72,9 @@ export function ReadableDetailScreen() {
               mode="contained"
               onPress={() => {
                 // `ao3Url` is guaranteed string here (truthy branch).
-                void Linking.openURL(ao3Url);
+                Linking.openURL(ao3Url).catch((err) => {
+                  if (__DEV__) console.warn("Failed to open AO3 URL", err);
+                });
               }}
             >
               View on AO3

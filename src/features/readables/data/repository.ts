@@ -1,5 +1,6 @@
 // src/features/readables/data/repository.ts
 import type { SQLiteDatabase } from "expo-sqlite";
+
 import type {
   ProgressUnit,
   ReadableItem,
@@ -7,6 +8,7 @@ import type {
   ReadableProgressPatch,
   ReadableStatus,
   ReadableUpsertPayload,
+  ReadablesListQuery,
 } from "../domain";
 
 type ReadableRow = {
@@ -106,10 +108,42 @@ export function createReadablesRepository(
 ) {
   const eventSink = opts?.eventSink ?? noopEventSink;
 
-  async function list(): Promise<ReadableItem[]> {
+  async function list(query?: ReadablesListQuery): Promise<ReadableItem[]> {
+    const where: string[] = [];
+    const params: (string | number)[] = [];
+
+    const search = query?.search?.trim();
+    if (search) {
+      const term = `%${search.toLowerCase()}%`;
+      where.push("(LOWER(title) LIKE ? OR LOWER(COALESCE(author, '')) LIKE ?)");
+      params.push(term, term);
+    }
+
+    if (query?.status) {
+      where.push("status = ?");
+      params.push(query.status);
+    }
+
+    // Fanfic-only completion filter: books are never excluded.
+    const completion = query?.completion ?? "all";
+    if (completion !== "all") {
+      where.push("(kind != 'fanfic' OR is_complete = ?)");
+      params.push(completion === "complete" ? 1 : 0);
+    }
+
+    const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";
+
+    const sort = query?.sort ?? "recent";
+    const orderSql =
+      sort === "title"
+        ? "ORDER BY title COLLATE NOCASE ASC, updated_at DESC"
+        : "ORDER BY updated_at DESC";
+
     const rows = await db.getAllAsync<ReadableRow>(
-      "SELECT * FROM readables ORDER BY updated_at DESC",
+      `SELECT * FROM readables ${whereSql} ${orderSql}`,
+      params,
     );
+
     return rows.map(rowToDomain);
   }
 
@@ -242,9 +276,7 @@ export function createReadablesRepository(
       await db.runAsync(
         `
         UPDATE readables
-        SET progress_current = ?,
-            progress_total = ?,
-            updated_at = ?
+        SET progress_current = ?, progress_total = ?, updated_at = ?
         WHERE id = ?
         `,
         [nextCurrent, safeTotal, now, id],
@@ -259,5 +291,11 @@ export function createReadablesRepository(
     });
   }
 
-  return { list, getById, upsert, updateStatus, updateProgress };
+  return {
+    list,
+    getById,
+    upsert,
+    updateStatus,
+    updateProgress,
+  };
 }

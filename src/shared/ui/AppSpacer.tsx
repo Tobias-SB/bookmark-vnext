@@ -1,5 +1,6 @@
 // src/shared/ui/AppSpacer.tsx
 import { View } from "react-native";
+
 import { useAppTheme } from "@/app/theme";
 import type { ThemeTokens } from "@/app/theme/types";
 

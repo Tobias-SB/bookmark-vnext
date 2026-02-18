@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 
-import { useAppTheme } from "@/app/theme";
-
 import { AppButton } from "./AppButton";
 import { AppCard } from "./AppCard";
 import { AppChip } from "./AppChip";
 import { AppDivider } from "./AppDivider";
 import { AppSpacer } from "./AppSpacer";
 import { AppText } from "./AppText";
+
+import { useAppTheme } from "@/app/theme";
 
 type Status = "Planned" | "Reading" | "Finished";
 

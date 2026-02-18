@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
-  extends: ["universe/native", "universe/shared/typescript-analysis"],
+  // ✅ Non-type-aware preset: avoids parserOptions.project requirement
+  extends: ["universe/native", "universe/shared/typescript"],
   plugins: ["react-native"],
   rules: {
     // Guardrail 1: no raw literal colors anywhere.

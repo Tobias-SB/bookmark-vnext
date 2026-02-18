@@ -15,8 +15,8 @@ import {
   type MD3Theme,
 } from "react-native-paper";
 
-import type { ThemeMode, ThemeTokens } from "@/app/theme/types";
 import { loadThemeMode, saveThemeMode } from "@/app/theme/storage";
+import type { ThemeMode, ThemeTokens } from "@/app/theme/types";
 import { useIsMounted } from "@/shared/hooks";
 
 type AppThemeContextValue = {
@@ -76,15 +76,22 @@ export function AppThemeProvider({ children }: PropsWithChildren) {
   const [mode, setModeState] = useState<ThemeMode>("system");
 
   useEffect(() => {
-    void (async () => {
+    (async () => {
       const saved = await loadThemeMode();
       if (saved && isMounted.current) setModeState(saved);
-    })();
+    })().catch((err) => {
+      // Non-fatal: fall back to "system"
+      if (__DEV__) console.warn("Failed to load theme mode", err);
+    });
   }, [isMounted]);
 
   const setMode = (next: ThemeMode) => {
     setModeState(next);
-    void saveThemeMode(next);
+
+    saveThemeMode(next).catch((err) => {
+      // Non-fatal: UI state already updated; persistence failed.
+      if (__DEV__) console.warn("Failed to save theme mode", err);
+    });
   };
 
   const value = useMemo<AppThemeContextValue>(() => {

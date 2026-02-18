@@ -1,5 +1,6 @@
 // src/shared/ui/AppText.tsx
 import { Text, type TextProps } from "react-native";
+
 import { useAppTheme } from "@/app/theme";
 
 type Props = TextProps & { variant?: "title" | "body" | "secondary" };

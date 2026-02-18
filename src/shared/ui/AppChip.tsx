@@ -7,6 +7,7 @@ import {
   type TextStyle,
   type ViewStyle,
 } from "react-native";
+
 import { useAppTheme } from "@/app/theme";
 
 type Props = {

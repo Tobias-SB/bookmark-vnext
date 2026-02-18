@@ -8,4 +8,7 @@ export type {
   ReadableProgressPatch,
   ReadableStatus,
   ReadableUpsertPayload,
+  ReadablesCompletionFilter,
+  ReadablesListQuery,
+  ReadablesSort,
 } from "./types";

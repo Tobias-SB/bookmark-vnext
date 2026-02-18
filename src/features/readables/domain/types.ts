@@ -65,3 +65,20 @@ export type ReadableProgressPatch = {
   progressCurrent?: number;
   progressTotal?: number | null;
 };
+
+export type ReadablesCompletionFilter = "all" | "wip" | "complete";
+export type ReadablesSort = "recent" | "title";
+
+export type ReadablesListQuery = {
+  /** Case-insensitive substring match against title + author. */
+  search?: string;
+  /** When omitted, all statuses are included. */
+  status?: ReadableStatus;
+  /**
+   * Fanfic-only completion filter.
+   * Books are never excluded by this filter.
+   */
+  completion?: ReadablesCompletionFilter;
+  /** Minimal sort for v1. */
+  sort?: ReadablesSort;
+};

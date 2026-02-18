@@ -1,5 +1,6 @@
 // src/shared/ui/AppDivider.tsx
 import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+
 import { useAppTheme } from "@/app/theme";
 
 type Props = {

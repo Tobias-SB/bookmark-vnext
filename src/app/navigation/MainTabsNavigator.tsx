@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import type { MainTabsParamList } from "@/app/navigation/types";
+import { UIPlaygroundScreen } from "@/features/dev";
 import { ReadableListScreen } from "@/features/readables";
 import { SettingsScreen } from "@/features/settings";
-import { UIPlaygroundScreen } from "@/features/dev";
 
 const Tab = createBottomTabNavigator<MainTabsParamList>();
 

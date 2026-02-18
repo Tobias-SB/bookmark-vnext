@@ -1,7 +1,7 @@
-import { PropsWithChildren, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { SQLiteProvider } from "expo-sqlite";
+import { PropsWithChildren, useState } from "react";
 
 import { queryClient } from "@/app/config/queryClient";
 import { DATABASE_NAME, migrateDbIfNeeded } from "@/app/db";
